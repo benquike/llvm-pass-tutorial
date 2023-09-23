@@ -2,7 +2,8 @@
 #include "llvm/IR/Function.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/IR/LegacyPassManager.h"
-#include "llvm/Transforms/IPO/PassManagerBuilder.h"
+// #include "llvm/Transforms/IPO/PassManagerBuilder.h"
+
 using namespace llvm;
 
 namespace {
@@ -17,10 +18,15 @@ namespace {
   };
 }
 
+// https://llvm.org/docs/WritingAnLLVMPass.html
 char SkeletonPass::ID = 0;
+static RegisterPass<SkeletonPass> X("Skeleton", "Skeleton Function Pass",
+				    false /* Only looks at CFG */,
+				    false /* Analysis Pass */);
 
 // Automatically enable the pass.
 // http://adriansampson.net/blog/clangpass.html
+/*
 static void registerSkeletonPass(const PassManagerBuilder &,
                          legacy::PassManagerBase &PM) {
   PM.add(new SkeletonPass());
@@ -28,3 +34,6 @@ static void registerSkeletonPass(const PassManagerBuilder &,
 static RegisterStandardPasses
   RegisterMyPass(PassManagerBuilder::EP_EarlyAsPossible,
                  registerSkeletonPass);
+*/
+
+
