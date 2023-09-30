@@ -19,7 +19,7 @@ mkdir build
 cmake -S  ../llvm-project/llvm -B build \
 -DLLVM_ENABLE_PROJECTS="bolt;clang;clang-tools-extra;flang;libc;libclc;lld;lldb;mlir;openmp;polly;pstl" -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind;compiler-rt"
 
-ninja -j(nproc)
+make -j(nproc)
 
 ```
 
@@ -35,9 +35,9 @@ https://apt.llvm.org/
 
 ## Building a trivial LLVM pass ##
 
-
 After getting clang+llvm, set the LLVM_HOME env variable.
 
+Here we assume that clang+llvm is downloaded. 
 To build the skeleton LLVM pass found in `skeleton` folder:
 ```bash
 $ export LLVM_HOME=/usr/lib/llvm-15
@@ -48,12 +48,23 @@ $ cmake ..
 $ make
 ```
 
-Now the easiest way to run the skeleton pass is to use Clang:
-```bash
-$ clang-15 -Xclang -load -Xclang build/skeleton/libSkeletonPass.* something.cpp
+
+## running the pass
+
+### Compile your target source to bitcode
+
 ```
-Note that Clang is the compiler front-end of the LLVM project.
-It can be installed separately in binary form.
+clang-15 -c -emit-llvm hello.cpp 
+```
+After the command, you will get a LLVM IR bitcide file named `hello.bc`
+in the directory where you executed the command above.
+
+### run the pass
+
+```bash
+$ opt-15 -enable-new-pm=0 -load build/skeleton/libSkeletonPass.so < hello.bc > /dev/null
+```
+
 
 ### Further resources
 This tutorial is based on the following resources
