@@ -62,7 +62,7 @@ in the directory where you executed the command above.
 ### run the pass
 
 ```bash
-$ opt-15 -enable-new-pm=0 -load build/skeleton/libSkeletonPass.so < hello.bc > /dev/null
+$ opt-15 -enable-new-pm=0 -load build/skeleton/libSkeletonPass.so -Skeleton < hello.bc > /dev/null
 ```
 
 
